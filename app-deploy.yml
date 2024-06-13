@@ -79,3 +79,56 @@ services:
       backend:
         aliases:
           - message-rpc
+
+### SOLAMB RPC SERVICE #########################################
+  solamb-rpc:
+    image: kebin6/wolflamp-rpc:${SOLAMB_VERSION}
+    container_name: solamb-rpc
+    restart: always
+    ports:
+      - '7002:7002'
+    volumes:
+      - ${LOG_DATA_DIR}/solamb/rpc:/home/data/logs
+      - ${CONFIG_DATA_DIR}/solamb/rpc:/app/etc
+    networks:
+      backend:
+        aliases:
+          - solamb-rpc
+
+### SOLAMB API SERVICE #########################################
+  solamb-api:
+    image: kebin6/wolflamp-api:${SOLAMB_VERSION}
+    container_name: solamb-api
+    restart: always
+    environment:
+      I18N_DIR: '/app'
+      AUTH_SECRET: ${AUTH_SECRET}
+    ports:
+      - '8002:8002'
+    volumes:
+      - ${LOG_DATA_DIR}/solamb/api:/home/data/logs
+      - ${CONFIG_DATA_DIR}/solamb/api:/app/etc
+      - ${CONFIG_DATA_DIR}/locale:/app/locale
+    networks:
+      backend:
+        aliases:
+          - solamb-api
+
+### APP API SERVICE #########################################
+  app-api:
+    image: kebin6/app-api:${SOLAMB_VERSION}
+    container_name: app-api
+    restart: always
+    environment:
+      I18N_DIR: '/app'
+      AUTH_SECRET: ${AUTH_SECRET}
+    ports:
+      - '8080:8080'
+    volumes:
+      - ${LOG_DATA_DIR}/app/api:/home/data/logs
+      - ${CONFIG_DATA_DIR}/app/api:/app/etc
+      - ${CONFIG_DATA_DIR}/locale:/app/locale
+    networks:
+      backend:
+        aliases:
+          - app-api
