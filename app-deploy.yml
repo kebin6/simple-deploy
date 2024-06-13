@@ -55,7 +55,7 @@ services:
       I18N_DIR: '/app'
       AUTH_SECRET: ${AUTH_SECRET}
     ports:
-      - '9100:9100'
+      - '9102:9102'
     volumes:
       - ${LOG_DATA_DIR}/file/api:/home/data/logs
       - ${CONFIG_DATA_DIR}/file/api:/app/etc
@@ -64,3 +64,18 @@ services:
       backend:
         aliases:
           - file-api
+
+### MESSAGE RPC SERVICE #########################################
+  message-rpc:
+    image: kebin6/mcms-rpc:${MESSAGE_VERSION}
+    container_name: message-rpc
+    restart: always
+    ports:
+      - '9106:9106'
+    volumes:
+      - ${LOG_DATA_DIR}/message/rpc:/home/data/logs
+      - ${CONFIG_DATA_DIR}/message/rpc:/app/etc
+    networks:
+      backend:
+        aliases:
+          - message-rpc
