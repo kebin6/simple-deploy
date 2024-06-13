@@ -45,3 +45,22 @@ services:
       backend:
         aliases:
           - core-api
+
+### FILE API SERVICE #########################################
+  file-api:
+    image: kebin6/core-api:${FILE_VERSION}
+    container_name: file-api
+    restart: always
+    environment:
+      I18N_DIR: '/app'
+      AUTH_SECRET: ${AUTH_SECRET}
+    ports:
+      - '9100:9100'
+    volumes:
+      - ${LOG_DATA_DIR}/core/api:/home/data/logs
+      - ${CONFIG_DATA_DIR}/core/api:/app/etc
+      - ${CONFIG_DATA_DIR}/locale:/app/locale
+    networks:
+      backend:
+        aliases:
+          - file-api
