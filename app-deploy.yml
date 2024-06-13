@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+volumes:
+  mysql:
+    driver: ${VOLUMES_DRIVER}
+  redis:
+    driver: ${VOLUMES_DRIVER}
+
+services:
+### CORE RPC SERVICE #########################################
+  core-rpc:
+    image: kebin6/core-rpc:${CORE_VERSION}
+    container_name: core-rpc
+    restart: always
+    ports:
+      - '9101:9101'
+    volumes:
+      - ${LOG_DATA_DIR}/core/rpc:/home/data/logs
+      - ${CONFIG_DATA_DIR}/core/rpc:/app/etc
+    networks:
+      backend:
+        aliases:
+          - core-rpc
+
+### CORE API SERVICE #########################################
+  core-api:
+    image: kebin6/core-api:${CORE_VERSION}
+    container_name: core-api
+    restart: always
+    environment:
+      I18N_DIR: '/app'
+      AUTH_SECRET: ${AUTH_SECRET}
+    ports:
+      - '9100:9100'
+    volumes:
+      - ${LOG_DATA_DIR}/core/api:/home/data/logs
+      - ${CONFIG_DATA_DIR}/core/api:/app/etc
+      - ${CONFIG_DATA_DIR}/locale:/app/locale
+    networks:
+      backend:
+        aliases:
+          - core-api
