@@ -4,7 +4,7 @@ ps :
 
 .PHONY: restart
 restart :
-	docker-compose restart core-rpc solamb-rpc message-rpc job-rpc file-api solamb-api app-api core-api
+	docker-compose restart core-rpc solamb-rpc message-rpc job-rpc file-api solamb-api app-api core-api nginx
 
 .PHONY: reload
 reload-solamb-rpc :
@@ -45,3 +45,18 @@ reload-file-api :
 reload-message-rpc :
 	docker-compose stop message-rpc
 	docker-compose -f app-deploy.yml up -d message-rpc
+
+.PHONY: reload
+reload-nginx :
+	docker-compose stop nginx
+	docker-compose up -d nginx
+
+.PHONY: reload
+reload-redis :
+	docker-compose stop redis
+	docker-compose up -d redis
+
+.PHONY: reload
+reload-mysql :
+	docker-compose stop mysql
+	docker-compose up -d mysql
