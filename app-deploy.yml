@@ -12,7 +12,7 @@ volumes:
     driver: ${VOLUMES_DRIVER}
 
 services:
-### CORE RPC SERVICE #########################################
+  ### CORE RPC SERVICE #########################################
   core-rpc:
     image: kebin6/core-rpc:${CORE_VERSION}
     container_name: core-rpc
@@ -27,7 +27,7 @@ services:
         aliases:
           - core-rpc
 
-### CORE API SERVICE #########################################
+  ### CORE API SERVICE #########################################
   core-api:
     image: kebin6/core-api:${CORE_VERSION}
     container_name: core-api
@@ -46,7 +46,7 @@ services:
         aliases:
           - core-api
 
-### FILE API SERVICE #########################################
+  ### FILE API SERVICE #########################################
   file-api:
     image: kebin6/fms-api:${FILE_VERSION}
     container_name: file-api
@@ -65,7 +65,7 @@ services:
         aliases:
           - file-api
 
-### MESSAGE RPC SERVICE #########################################
+  ### MESSAGE RPC SERVICE #########################################
   message-rpc:
     image: kebin6/mcms-rpc:${MESSAGE_VERSION}
     container_name: message-rpc
@@ -80,9 +80,9 @@ services:
         aliases:
           - message-rpc
 
-### SOLAMB RPC SERVICE #########################################
+  ### SOLAMB RPC SERVICE #########################################
   solamb-rpc:
-    image: kebin6/wolflamp-rpc:${SOLAMB_VERSION}
+    image: kebin6/wolflamp-rpc:${SOLAMB_RPC_VERSION}
     container_name: solamb-rpc
     restart: always
     ports:
@@ -95,9 +95,9 @@ services:
         aliases:
           - solamb-rpc
 
-### SOLAMB API SERVICE #########################################
+  ### SOLAMB API SERVICE #########################################
   solamb-api:
-    image: kebin6/wolflamp-api:${SOLAMB_VERSION}
+    image: kebin6/wolflamp-api:${SOLAMB_API_VERSION}
     container_name: solamb-api
     restart: always
     environment:
@@ -114,9 +114,9 @@ services:
         aliases:
           - solamb-api
 
-### APP API SERVICE #########################################
+  ### APP API SERVICE #########################################
   app-api:
-    image: kebin6/app-api:${SOLAMB_VERSION}
+    image: kebin6/app-api:${SOLAMB_APP_VERSION}
     container_name: app-api
     restart: always
     environment:
@@ -132,3 +132,18 @@ services:
       backend:
         aliases:
           - app-api
+
+  ### JOB RPC SERVICE #########################################
+  job-rpc:
+    image: kebin6/job-rpc:${JOB_RPC_VERSION}
+    container_name: job-rpc
+    restart: always
+    ports:
+      - '9105:9105'
+    volumes:
+      - ${LOG_DATA_DIR}/job/rpc:/home/data/logs
+      - ${CONFIG_DATA_DIR}/job/rpc:/app/etc
+    networks:
+      backend:
+        aliases:
+          - job-rpc
