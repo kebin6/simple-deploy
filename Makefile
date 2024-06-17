@@ -4,7 +4,7 @@ ps :
 
 .PHONY: restart
 restart :
-	docker-compose restart cor-rpc solamb-rpc message-rpc job-rpc file-api solamb-api app-api
+	docker-compose restart core-rpc solamb-rpc message-rpc job-rpc file-api solamb-api app-api core-api
 
 .PHONY: reload
 reload-solamb-rpc :
