@@ -1,3 +1,11 @@
+.PHONY: ps
+ps :
+	docker-compose ps
+
+.PHONY: restart
+restart :
+	docker-compose restart cor-rpc solamb-rpc message-rpc job-rpc file-api solamb-api app-api
+
 .PHONY: reload
 reload-solamb-rpc :
 	docker-compose stop solamb-rpc
