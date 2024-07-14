@@ -60,3 +60,7 @@ reload-redis :
 reload-mysql :
 	docker-compose stop mysql
 	docker-compose up -d mysql
+
+.PHONY: kill
+kill :
+	lsof -i :8002 | awk 'NR != 1 {print $2}' | xargs kill -9
